@@ -9,6 +9,16 @@ dist/
 *.webm
 *.mov
 *.gif
+*.wav
+*.mp3
+*.ogg
+*.ass
+*.srt
+
+# Heavy local builds (download separately — see SETUP.md)
+whisper.cpp/
+public/assets/
+public/out/
 
 # Agent configs (created by skills installer for other AI tools)
 .codebuddy/

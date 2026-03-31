@@ -20,6 +20,24 @@ import {BeforeAfterDemo} from "./compositions/BeforeAfterDemo";
 import {TalkingHeadEdit} from "./templates/editing/TalkingHeadEdit";
 import {PodcastClip} from "./templates/editing/PodcastClip";
 
+// TUK Quantum
+import {TukQuantumVideo} from "./compositions/TukQuantum";
+import {DemoCliente} from "./compositions/DemoCliente";
+import {AITalkingHead} from "./compositions/AITalkingHead";
+
+// Dynamically load Guion Data to calculate exact duration
+let aiTalkingHeadDuration = 900;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const guion = require("../public/assets/guion_con_timestamps.json");
+  if (guion && guion.segments && guion.segments.length > 0) {
+    const lastSeg = guion.segments[guion.segments.length - 1];
+    aiTalkingHeadDuration = Math.ceil(lastSeg.end * 30) + 30; // 1s padding to let audio breathe
+  }
+} catch (e) {
+  console.log("No guion found, defaulting to 900");
+}
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -129,6 +147,33 @@ export const RemotionRoot: React.FC = () => {
           fps={30}
           width={1920}
           height={1080}
+        />
+      </Folder>
+
+      <Folder name="TUK">
+        <Composition
+          id="TukQuantum"
+          component={TukQuantumVideo}
+          durationInFrames={900}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="DemoCliente"
+          component={DemoCliente}
+          durationInFrames={1581}
+          fps={30}
+          width={1280}
+          height={720}
+        />
+        <Composition
+          id="AITalkingHead"
+          component={AITalkingHead}
+          durationInFrames={aiTalkingHeadDuration}
+          fps={30}
+          width={1080}
+          height={1920}
         />
       </Folder>
 
